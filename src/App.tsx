@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+// import { FC } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const Calender: React.FC = () => {
+  const days: number[] = [...Array(31).keys()];
+  console.log(days);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>日</th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th>土</th>
+          </tr>
+          {[...Array(6)].map((_, index) => (
+            <Week key={index} days={days.slice(index * 7, (index + 1) * 7)} />
+          ))}
+        </thead>
+      </table>
+    </div>
+  );
 }
 
-export default App
+type WeekProps = {
+  days: number[];
+}
+
+const Week: React.FC<WeekProps> = (props) => {
+  return (
+    <tr>
+      <td>{props.days[0]}</td>
+      <td>{props.days[1]}</td>
+      <td>{props.days[2]}</td>
+      <td>{props.days[3]}</td>
+      <td>{props.days[4]}</td>
+      <td>{props.days[5]}</td>
+      <td>{props.days[6]}</td>
+    </tr>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <h1>以下の日程でご都合いかがでしょうかメーカー</h1>
+      <Calender />
+      <div>
+        <textarea>以下の日程でご都合いかがでしょうか</textarea>
+        <button>copy</button>
+        <button>reset</button>
+      </div>
+    </>
+  );
+}
+
+export default App;
