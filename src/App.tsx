@@ -2,8 +2,7 @@ import "./App.css";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { TextField } from "@mui/material";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { Box, Container, TextField } from "@mui/material";
 
 const Calender: React.FC = () => {
   const days: number[] = [...Array(31).keys()];
@@ -88,7 +87,7 @@ const Day: React.FC<DayProps> = (props) => {
 
 function App() {
   return (
-    <>
+    <Box sx={{ alignItems: 'flex-start' }}>
       <Typography variant="h5" component="h1" sx={{ mb: 4 }}>
         日程調整メーカー
       </Typography>
@@ -99,7 +98,7 @@ function App() {
         <Grid item xs={6}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
-              <TextField multiline minRows={8}>
+              <TextField multiline minRows={8} defaultValue={"以下の日程でご都合いかがでしょうか"}>
                 日程調整メーカー
               </TextField>
             </Grid>
@@ -110,13 +109,13 @@ function App() {
             </Grid>
             <Grid item>
               <Button variant="outlined" fullWidth>
-                text
+                reset
               </Button>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 }
 
