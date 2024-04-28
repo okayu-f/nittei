@@ -19,18 +19,22 @@ const Calender: React.FC = () => {
     <>
       <Grid container>
         <Grid item xs={2}>
-          <Button variant="text">
+          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
             <KeyboardArrowLeftIcon />
           </Button>
         </Grid>
-        <Grid item xs={2}>
-          <Button variant="text">今日</Button>
+        <Grid item xs={3}>
+          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
+            今日
+          </Button>
         </Grid>
-        <Grid item xs={6}>
-          <Button variant="text">2024年4月</Button>
+        <Grid item xs={5}>
+          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
+            2024年4月
+          </Button>
         </Grid>
         <Grid item xs={2}>
-          <Button variant="text">
+          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
             <KeyboardArrowRightIcon />
           </Button>
         </Grid>
