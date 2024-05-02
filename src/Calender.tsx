@@ -4,64 +4,23 @@ import Grid from "@mui/material/Grid";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useState } from "react";
-import { getYear, getMonth, getDay, previousSunday, nextSaturday } from "date-fns";
+import { getYear, getMonth, getDay, previousSunday, nextSaturday, eachDayOfInterval, startOfToday, startOfMonth, endOfMonth } from "date-fns";
 
 const Calender: React.FC = () => {
-  const today = new Date();
-  const { month, setMonth } = useState(getMonth(today));
-  const startOfMonth = new Date(getYear(today), month, 1);
-  const startDate = getDay(startOfMonth) === 0 ? startOfMonth : previousSunday(startOfMonth);
-  const endOfMonth = new Date(getYear(today), month + 1, 0);
-  const endDate = getDay(endOfMonth) === 6 ? endOfMonth : nextSaturday(endOfMonth);
+  const today = startOfToday();
+  const [year, setYear] = useState(getYear(today));
+  const [month, setMonth] = useState(getMonth(today));
+  const startOfThisMonth = startOfMonth(today);
+  const startDate = getDay(startOfThisMonth) === 0 ? startOfThisMonth : previousSunday(startOfThisMonth);
+  const endOfThisMonth = endOfMonth(today);
+  const endDate = getDay(endOfThisMonth) === 6 ? endOfThisMonth : nextSaturday(endOfThisMonth);
 
-  // const days: Date[] = Array.from({ length: (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1 }, (_, index) => {
-  //   const currentDate = new Date(startDate);
-  //   currentDate.setDate(startDate.getDate() + index);
-  //   return currentDate;
-  // });
-
-  const days: Date[] = [
-    new Date(2024, 4, 1),
-    new Date(2024, 4, 2),
-    new Date(2024, 4, 3),
-    new Date(2024, 4, 4),
-    new Date(2024, 4, 5),
-    new Date(2024, 4, 6),
-    new Date(2024, 4, 7),
-    new Date(2024, 4, 8),
-    new Date(2024, 4, 9),
-    new Date(2024, 4, 10),
-    new Date(2024, 4, 11),
-    new Date(2024, 4, 12),
-    new Date(2024, 4, 13),
-    new Date(2024, 4, 14),
-    new Date(2024, 4, 15),
-    new Date(2024, 4, 16),
-    new Date(2024, 4, 17),
-    new Date(2024, 4, 18),
-    new Date(2024, 4, 19),
-    new Date(2024, 4, 20),
-    new Date(2024, 4, 21),
-    new Date(2024, 4, 22),
-    new Date(2024, 4, 23),
-    new Date(2024, 4, 24),
-    new Date(2024, 4, 25),
-    new Date(2024, 4, 26),
-    new Date(2024, 4, 27),
-    new Date(2024, 4, 28),
-    new Date(2024, 4, 29),
-    new Date(2024, 4, 30),
-    new Date(2024, 5, 1),
-    new Date(2024, 5, 2),
-    new Date(2024, 5, 3),
-    new Date(2024, 5, 4),
-    new Date(2024, 5, 5),
-  ]
+  const days: Date[] = eachDayOfInterval({ start: startDate, end: endDate });
 
   return (
     <>
       <Grid container>
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
             <KeyboardArrowLeftIcon />
           </Button>
@@ -71,12 +30,17 @@ const Calender: React.FC = () => {
             今日
           </Button>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={4}>
           <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
-            2024年4月
+            {year}年
           </Button>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
+          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
+            {month + 1}月
+          </Button>
+        </Grid>
+        <Grid item xs={1}>
           <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
             <KeyboardArrowRightIcon />
           </Button>
