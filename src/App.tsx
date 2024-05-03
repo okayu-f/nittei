@@ -3,7 +3,8 @@ import Calender from "./Calender";
 import Times from "./Times";
 
 import { useState } from "react";
-import { getMonth } from "date-fns";
+import { format } from "date-fns";
+import { ja } from "date-fns/locale";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -11,12 +12,18 @@ import Grid from "@mui/material/Grid";
 import { Container, TextField } from "@mui/material";
 
 const Main: React.FC = () => {
+  const [text, setText] = useState("以下の日程でご都合いかがでしょうか。");
+
+  const handleClick = (date: Date) => {
+    const newText = text + `\n${format(date, "M月d日(E) ", { locale: ja })}`;
+    setText(newText);
+  };
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
-            <Calender />
+            <Calender onCalenderClick={handleClick} />
           </Grid>
           <Grid item xs={4}>
             <Times />
@@ -29,7 +36,8 @@ const Main: React.FC = () => {
             <TextField
               multiline
               minRows={8}
-              defaultValue={"以下の日程でご都合いかがでしょうか。"}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
               inputProps={{ style: { fontSize: 14 } }}
               sx={{ width: "100%" }}
             >
