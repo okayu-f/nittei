@@ -4,7 +4,9 @@ import Grid from "@mui/material/Grid";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useState } from "react";
-import { getYear, getMonth, getDay, previousSunday, nextSaturday, eachDayOfInterval, startOfToday, startOfMonth, endOfMonth } from "date-fns";
+import { getYear, getMonth, getDay, previousSunday, nextSaturday, eachDayOfInterval, startOfToday, startOfMonth, endOfMonth, isSameMonth } from "date-fns";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import gray from "@mui/material/colors/grey";
 
 const Calender: React.FC = () => {
   const today = startOfToday();
@@ -15,7 +17,7 @@ const Calender: React.FC = () => {
   const endOfThisMonth = endOfMonth(today);
   const endDate = getDay(endOfThisMonth) === 6 ? endOfThisMonth : nextSaturday(endOfThisMonth);
 
-  const days: Date[] = eachDayOfInterval({ start: startDate, end: endDate });
+  const dates: Date[] = eachDayOfInterval({ start: startDate, end: endDate });
 
   return (
     <>
@@ -54,54 +56,52 @@ const Calender: React.FC = () => {
         ))}
       </Grid>
       {Array.from({ length: 5 }, (_, index) => (
-        <Week key={index} days={days.slice(index * 7, (index + 1) * 7)} />
+        <Week key={index} dates={dates.slice(index * 7, (index + 1) * 7)} year={year} month={month}/>
       ))}
     </>
   );
 };
 
 interface WeekProps {
-  days: Date[];
+  dates: Date[];
+  year: number;
+  month: number;
 }
 
 const Week: React.FC<WeekProps> = (props) => {
   return (
     <Grid container columns={7} spacing={0}>
-      <Grid item xs={1}>
-        <Day day={props.days[0]} />
-      </Grid>
-      <Grid item xs={1}>
-        <Day day={props.days[1]} />
-      </Grid>
-      <Grid item xs={1}>
-        <Day day={props.days[2]} />
-      </Grid>
-      <Grid item xs={1}>
-        <Day day={props.days[3]} />
-      </Grid>
-      <Grid item xs={1}>
-        <Day day={props.days[4]} />
-      </Grid>
-      <Grid item xs={1}>
-        <Day day={props.days[5]} />
-      </Grid>
-      <Grid item xs={1}>
-        <Day day={props.days[6]} />
-      </Grid>
+      {props.dates.map((date, index) => (
+        <Grid item xs={1} key={index}>
+          <Day date={date} year={props.year} month={props.month}/>
+        </Grid>
+      ))}
     </Grid>
   );
 };
 
 interface DayProps {
-  day: Date;
+  date: Date;
+  year: number;
+  month: number;
 }
 
 const Day: React.FC<DayProps> = (props) => {
-  const day = props.day.getDate();
+  const theme = createTheme({
+    palette: {
+      secondary: gray
+    },
+  });
+
+  const date = props.date.getDate();
+  const isThisMonth = isSameMonth(props.date, new Date(props.year, props.month, 1));
+  const color = isThisMonth ? "primary" : "secondary";
   return (
-    <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
-      {day}
-    </Button>
+    <ThemeProvider theme={theme}>
+      <Button variant="text" sx={{ width: "100%", minWidth: "0px"}} color={color}>
+        {date}
+      </Button>
+    </ThemeProvider>
   );
 };
 
