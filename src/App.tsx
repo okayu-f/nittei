@@ -14,16 +14,25 @@ import { Container, TextField } from "@mui/material";
 const Main: React.FC = () => {
   const [text, setText] = useState("以下の日程でご都合いかがでしょうか。");
 
-  const handleClick = (date: Date) => {
+  const handleDayClick = (date: Date) => {
     const newText = text + `\n${format(date, "M月d日(E) ", { locale: ja })}`;
     setText(newText);
   };
+
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(text);
+  }
+
+  const handleResetClick = () => {
+    setText("以下の日程でご都合いかがでしょうか。");
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
-            <Calender onCalenderClick={handleClick} />
+            <Calender onCalenderClick={handleDayClick} />
           </Grid>
           <Grid item xs={4}>
             <Times />
@@ -45,12 +54,12 @@ const Main: React.FC = () => {
             </TextField>
           </Grid>
           <Grid item xs={8}>
-            <Button variant="contained" fullWidth>
+            <Button variant="contained" fullWidth onClick={handleCopyClick}>
               copy
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" fullWidth>
+            <Button variant="outlined" fullWidth onClick={handleResetClick}>
               reset
             </Button>
           </Grid>
