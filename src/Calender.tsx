@@ -34,16 +34,39 @@ const Calender: React.FC<CalenderProps> = ({ onCalenderClick }) => {
     onCalenderClick(date);
   };
 
+  const handlePreviousClick = () => {
+    if (month === 0) {
+      setYear(year - 1);
+      setMonth(11);
+    } else {
+      setMonth(month - 1);
+    }
+  }
+
+  const handleNextClick = () => {
+    if (month === 11) {
+      setYear(year + 1);
+      setMonth(0);
+    } else {
+      setMonth(month + 1);
+    }
+  }
+
+  const handleTodayClick = () => {
+    setYear(getYear(today));
+    setMonth(getMonth(today));
+  }
+
   return (
     <>
       <Grid container>
         <Grid item xs={1}>
-          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
+          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }} onClick={handlePreviousClick}>
             <KeyboardArrowLeftIcon />
           </Button>
         </Grid>
         <Grid item xs={3}>
-          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
+          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }} onClick={handleTodayClick}>
             今日
           </Button>
         </Grid>
@@ -58,7 +81,7 @@ const Calender: React.FC<CalenderProps> = ({ onCalenderClick }) => {
           </Button>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
+          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }} onClick={handleNextClick}>
             <KeyboardArrowRightIcon />
           </Button>
         </Grid>
