@@ -3,8 +3,8 @@ import Calender from "./Calender";
 import Times from "./Times";
 
 import { useState } from "react";
-import { format, set } from "date-fns";
-import { is, ja } from "date-fns/locale";
+import { format } from "date-fns";
+import { ja } from "date-fns/locale";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
