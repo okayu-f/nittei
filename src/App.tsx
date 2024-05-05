@@ -3,8 +3,8 @@ import Calender from "./Calender";
 import Times from "./Times";
 
 import { useState } from "react";
-import { format } from "date-fns";
-import { ja } from "date-fns/locale";
+import { format, set } from "date-fns";
+import { is, ja } from "date-fns/locale";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -13,19 +13,31 @@ import { Container, TextField } from "@mui/material";
 
 const Main: React.FC = () => {
   const [text, setText] = useState("以下の日程でご都合いかがでしょうか。");
+  const [isFrom, setIsFrom] = useState(true);
+  const [isFirst, setIsFirst] = useState(true);
 
   const handleDayClick = (date: Date) => {
     const newText = text + `\n${format(date, "M月d日(E) ", { locale: ja })}`;
     setText(newText);
+    setIsFrom(true);
+    setIsFirst(true);
+  };
+
+  const handleTimeClick = (time: string) => {
+    const addText = isFrom ? ((isFirst ? " " : "、") + time + "〜") : time;
+    const newText = text + addText;
+    setText(newText);
+    setIsFrom(!isFrom);
+    setIsFirst(false);
   };
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(text);
-  }
+  };
 
   const handleResetClick = () => {
     setText("以下の日程でご都合いかがでしょうか。");
-  }
+  };
 
   return (
     <Grid container spacing={2}>
@@ -35,7 +47,7 @@ const Main: React.FC = () => {
             <Calender onCalenderClick={handleDayClick} />
           </Grid>
           <Grid item xs={4}>
-            <Times />
+            <Times onTimesClick={handleTimeClick} />
           </Grid>
         </Grid>
       </Grid>
