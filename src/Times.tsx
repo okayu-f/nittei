@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -8,7 +8,7 @@ interface TimesProps {
   onTimesClick: (time: string) => void;
 }
 
-const Times: React.FC<TimesProps> = ({onTimesClick}) => {
+const Times: React.FC<TimesProps> = ({ onTimesClick }) => {
   const timesList: string[] = [
     "00:00",
     "00:30",
@@ -66,21 +66,42 @@ const Times: React.FC<TimesProps> = ({onTimesClick}) => {
     if (timesStart > 0) {
       setTimesStart(timesStart - 1);
     }
-  }
+  };
 
   const handleDownClick = () => {
     if (timesStart < 34) {
       setTimesStart(timesStart + 1);
     }
-  }
+  };
 
   const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
     if (e.deltaY < 0) {
       handleUpClick();
     } else {
       handleDownClick();
     }
-  }
+  };
+
+  const timesRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const times = timesRef.current;
+    times?.addEventListener(
+      "wheel",
+      (e) => {
+        const event = e as unknown as React.WheelEvent<HTMLElement>;
+        handleWheel(event);
+      },
+      { passive: false }
+    );
+    return () => {
+      times?.removeEventListener("wheel", (e) => {
+        const event = e as unknown as React.WheelEvent<HTMLElement>;
+        handleWheel(event);
+      });
+    };
+  });
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box>
@@ -88,7 +109,7 @@ const Times: React.FC<TimesProps> = ({onTimesClick}) => {
           <KeyboardArrowUpIcon />
         </Button>
       </Box>
-      <Box onWheel={handleWheel}>
+      <Box ref={timesRef}>
         {times.map((time, index) => (
           <Box key={index}>
             <Button variant="text" onClick={() => onTimesClick(time)} sx={{ width: "50%", minWidth: "0px", height: 30 }}>
