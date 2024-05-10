@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useState } from "react";
-import { getYear, getMonth, getDate, getDay, previousSunday, nextSaturday, eachDayOfInterval, startOfToday, startOfMonth, endOfMonth, isSameMonth, isSameDay, set } from "date-fns";
+import { getYear, getMonth, getDate, getDay, previousSunday, nextSaturday, eachDayOfInterval, startOfToday, startOfMonth, endOfMonth, isSameMonth, isSameDay } from "date-fns";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import gray from "@mui/material/colors/grey";
 
@@ -136,8 +136,9 @@ const Day: React.FC<DayProps> = (props) => {
   const date = props.date.getDate();
   const isThisMonth = isSameMonth(props.date, new Date(props.year, props.month, 1));
   const isSelected = isSameDay(props.date, new Date(props.year, props.month, props.selectedDate));
+  const isToday = isSameDay(props.date, startOfToday());
   const variant = isSelected ? "outlined" : "text";
-  const color = isThisMonth ? "primary" : "secondary";
+  const color = isThisMonth ? (isToday ? "warning" : "primary") : "secondary";
   return (
     <ThemeProvider theme={theme}>
       <Button variant={variant} sx={{ width: "100%", minWidth: "0px" }} color={color} onClick={props.onDayClick}>
