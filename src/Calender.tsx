@@ -62,7 +62,7 @@ const Calender: React.FC<CalenderProps> = ({ onCalenderClick }) => {
 
   return (
     <>
-      <Grid container>
+      <Grid container alignItems="center">
         <Grid item xs={1}>
           <Button variant="text" sx={{ width: "100%", minWidth: "0px" }} onClick={handlePreviousClick}>
             <KeyboardArrowLeftIcon />
@@ -73,15 +73,10 @@ const Calender: React.FC<CalenderProps> = ({ onCalenderClick }) => {
             今日
           </Button>
         </Grid>
-        <Grid item xs={4}>
-          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
-            {year}年
-          </Button>
-        </Grid>
-        <Grid item xs={3}>
-          <Button variant="text" sx={{ width: "100%", minWidth: "0px" }}>
-            {month + 1}月
-          </Button>
+        <Grid item xs={7}>
+          <Typography sx={{ width: "100%", minWidth: "0px" }}>
+            {year}年 {month + 1}月
+          </Typography>
         </Grid>
         <Grid item xs={1}>
           <Button variant="text" sx={{ width: "100%", minWidth: "0px" }} onClick={handleNextClick}>
