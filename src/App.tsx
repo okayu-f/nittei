@@ -24,7 +24,7 @@ const Main: React.FC = () => {
   };
 
   const handleTimeClick = (time: string) => {
-    const addText = isFrom ? ((isFirst ? " " : "、") + time + "〜") : time;
+    const addText = isFrom ? (isFirst ? " " : "、") + time + "〜" : time;
     const newText = text + addText;
     setText(newText);
     setIsFrom(!isFrom);
@@ -60,7 +60,7 @@ const Main: React.FC = () => {
               value={text}
               onChange={(e) => setText(e.target.value)}
               inputProps={{ style: { fontSize: 14 } }}
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", backgroundColor: "white" }}
             >
               日程調整メーカー
             </TextField>
