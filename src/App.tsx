@@ -6,6 +6,7 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 
+import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -60,7 +61,7 @@ const Main: React.FC = () => {
               value={text}
               onChange={(e) => setText(e.target.value)}
               inputProps={{ style: { fontSize: 14 } }}
-              sx={{ width: "100%", backgroundColor: "white" }}
+              sx={{ width: "100%" }}
             >
               日程調整メーカー
             </TextField>
@@ -81,14 +82,23 @@ const Main: React.FC = () => {
   );
 };
 
+const theme = createTheme({
+  palette: {
+    mode: "light", // ライトテーマを固定
+  },
+});
+
 const App = () => {
   return (
-    <Container sx={{ minWidth: 720 }}>
-      <Typography variant="h5" component="h1" sx={{ mb: 4 }}>
-        日程調整メーカー
-      </Typography>
-      <Main />
-    </Container>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container sx={{ minWidth: 720 }}>
+        <Typography variant="h5" component="h1" sx={{ mb: 4 }}>
+          日程調整メーカー
+        </Typography>
+        <Main />
+      </Container>
+    </ThemeProvider>
   );
 };
 
