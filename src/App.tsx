@@ -11,11 +11,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { Container, TextField } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const Main: React.FC = () => {
   const [text, setText] = useState("以下の日程でご都合いかがでしょうか。");
   const [isFrom, setIsFrom] = useState(true);
   const [isFirst, setIsFirst] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleDayClick = (date: Date) => {
     const newText = text + `\n${format(date, "M月d日(E) ", { locale: ja })}`;
@@ -34,6 +37,11 @@ const Main: React.FC = () => {
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(text);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleResetClick = () => {
@@ -42,6 +50,15 @@ const Main: React.FC = () => {
 
   return (
     <Grid container spacing={2}>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+      <Alert
+        onClose={handleClose}
+        severity="success"
+        sx={{ width: '100%' }}
+      >
+        コピーしました。
+      </Alert>
+      </Snackbar>
       <Grid item xs={6}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
